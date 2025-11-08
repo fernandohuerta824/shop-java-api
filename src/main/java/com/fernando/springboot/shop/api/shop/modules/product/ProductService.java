@@ -24,7 +24,7 @@ public class ProductService {
 
     @Transactional
     public ProductDto save(ProductBodyDto body) {
-        Product product = productMapper.fromBodyToEntity(body);
+        Product product = productMapper.toEntity(body);
         product.setCode(GenerateCode.generate());
 
         productRepository.save(product);
@@ -77,7 +77,7 @@ public class ProductService {
         Product product = productRepository.findByCode(code)
             .orElseThrow(() -> ex);
 
-        productMapper.updateProductFromDto(body, product);
+        productMapper.updateEntity(body, product);
 
         return productMapper.toDto(product);
     }

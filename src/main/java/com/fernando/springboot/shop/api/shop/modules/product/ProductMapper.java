@@ -11,6 +11,6 @@ import com.fernando.springboot.shop.api.shop.modules.product.dto.ProductDto;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ProductMapper extends BaseMapper<Product, ProductDto> {
     
-    Product fromBodyToEntity(ProductBodyDto dto);
-    void updateProductFromDto(ProductBodyDto dto, @MappingTarget Product entity);
+    Product toEntity(ProductBodyDto dto);
+    void updateEntity(ProductBodyDto dto, @MappingTarget Product entity);
 }
