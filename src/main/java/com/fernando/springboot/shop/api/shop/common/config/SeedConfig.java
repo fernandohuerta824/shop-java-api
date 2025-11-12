@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Random;
 
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import com.fernando.springboot.shop.api.shop.domain.code.GenerateCode;
-import com.fernando.springboot.shop.api.shop.modules.category.CategoryRepository;
 import com.fernando.springboot.shop.api.shop.modules.product.Product;
 import com.fernando.springboot.shop.api.shop.modules.product.ProductRepository;
 
@@ -20,9 +20,7 @@ import net.datafaker.Faker;
 public class SeedConfig implements CommandLineRunner {
 
     private ProductRepository productRepository;
-    private CategoryRepository categoryRepository;
     
-
     @Override
     public void run(String... args) throws Exception {
         

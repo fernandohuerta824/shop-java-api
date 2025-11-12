@@ -38,7 +38,7 @@ public class Category {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(length = FieldLengths.MAX_NAME, unique = true, nullable = false)
+    @Column(length = FieldLengths.MAX_SHORT_NAME, unique = true, nullable = false)
     private String name;
 
     @Column(length = FieldLengths.MAX_DESCRIPTION)
