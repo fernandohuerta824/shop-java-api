@@ -44,7 +44,7 @@ public class Category {
     @Column(length = FieldLengths.MAX_DESCRIPTION)
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 

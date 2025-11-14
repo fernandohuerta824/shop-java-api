@@ -1,12 +1,14 @@
 package com.fernando.springboot.shop.api.shop.modules.category;
 
 import org.mapstruct.AfterMapping;
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.fernando.springboot.shop.api.shop.domain.mapper.BaseMapper;
+import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryBodyDto;
 import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryDto;
 import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryShortDto;
 
@@ -43,4 +45,21 @@ public interface CategoryMapper extends BaseMapper<Category, CategoryDto> {
 
         dto.setParentCategory(entity.getParentCategory().getId());
     }
+
+    Category toEntity(CategoryBodyDto dto, @Context Category parentCategory );
+
+    @AfterMapping
+    default void setParentCategory(
+        @MappingTarget Category entity, 
+        CategoryBodyDto dto,
+        @Context Category parentCategory
+    ) {
+        entity.setParentCategory(parentCategory);
+    }
+
+    void updateEntity(
+        @MappingTarget Category entity, 
+        CategoryBodyDto dto,
+        @Context Category parentCategory
+    );
 }
