@@ -34,7 +34,7 @@ import lombok.AllArgsConstructor;
 @Tag(name = "Products", description =  "Se encarga de las operaciones de lo productos")
 public class ProductController {
     
-    private ProductService productService;
+    private final ProductService productService;
 
     @GetMapping
     @Operation(summary = "Devuelve una pagina de products")
