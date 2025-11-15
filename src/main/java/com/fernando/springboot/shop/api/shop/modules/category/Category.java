@@ -1,8 +1,13 @@
 package com.fernando.springboot.shop.api.shop.modules.category;
 
 
+
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fernando.springboot.shop.api.shop.common.constants.FieldLengths;
 import com.fernando.springboot.shop.api.shop.modules.product.Product;
@@ -44,7 +49,7 @@ public class Category {
     @Column(length = FieldLengths.MAX_DESCRIPTION)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 
@@ -54,4 +59,11 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products;
 
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false, name = "created_at")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false, name = "updated_at") 
+    private LocalDateTime updatedAt;
 }

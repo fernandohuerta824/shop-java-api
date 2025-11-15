@@ -67,7 +67,7 @@ public class CategoryService {
             throw new ResourceAlreadyExistsException("La categoria " + body.getName() + " ya existe");
         }
 
-        Category parentCategory = null;
+        Category parentCategory = category.getParentCategory();
 
         if(body.getParentCategoryId() != null) {
             parentCategory = categoryRepository.findById(body.getParentCategoryId())
@@ -85,6 +85,8 @@ public class CategoryService {
 
         categoryMapper.updateEntity(category, body, parentCategory);
 
+        categoryRepository.save(category);
+
         return categoryMapper.toDto(category);
     }
 
@@ -96,5 +98,6 @@ public class CategoryService {
 
        return categoryMapper.toDto(category);
     }
+
     
 }
