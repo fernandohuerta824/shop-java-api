@@ -60,6 +60,12 @@ public class Product {
     @Column(nullable = false, name = "is_available")
     private Boolean isAvailable;
 
+    @Column(name = "image_url", length = FieldLengths.MAX_URL)
+    private String imageUrl;
+
+    @Column(name = "public_image_id", length = FieldLengths.MAX_URL)
+    private String publicImageId;
+
     @CreationTimestamp
     @Column(nullable = false, name = "created_at", updatable = false)
     private LocalDateTime createdAt;

@@ -1,6 +1,7 @@
 package com.fernando.springboot.shop.api.shop.modules.product;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fernando.springboot.shop.api.shop.domain.response.ApiPageResponse;
 import com.fernando.springboot.shop.api.shop.domain.response.ApiResponse;
@@ -91,5 +93,32 @@ public class ProductController {
         ProductDto product = productService.delete(code);
 
         return BuildResponse.build("Producto eliminado correctamente", HttpStatus.OK, product);
+    }
+
+    @PostMapping("/{code}/image")
+    public ResponseEntity<ApiResponse<Map<?, ?>>> uploadImage(
+        @PathVariable String code,
+        @RequestParam("file") MultipartFile image
+    ) throws Exception {
+        Map<?, ?> cloudinaryResult = productService.uploadImage(code, image);
+
+        return BuildResponse.build(
+            "Imagen subida correctamente", 
+            HttpStatus.CREATED,
+            cloudinaryResult
+        );
+    }
+
+    @DeleteMapping("/{code}/image")
+    public ResponseEntity<ApiResponse<String>> deleteImage(
+        @PathVariable String code
+    ) throws Exception {
+        productService.deleteImage(code);
+
+        return BuildResponse.build(
+            "Imagen elimanada correctamente", 
+            HttpStatus.OK, 
+            code
+        );
     }
 }

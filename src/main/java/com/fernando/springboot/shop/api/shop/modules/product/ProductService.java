@@ -1,15 +1,18 @@
 package com.fernando.springboot.shop.api.shop.modules.product;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fernando.springboot.shop.api.shop.common.constants.FieldLengths;
 import com.fernando.springboot.shop.api.shop.domain.code.GenerateCode;
 import com.fernando.springboot.shop.api.shop.domain.exception.ResourceNotFoundException;
+import com.fernando.springboot.shop.api.shop.modules.cloudinary.CloudinaryService;
 import com.fernando.springboot.shop.api.shop.modules.product.dto.ProductBodyDto;
 import com.fernando.springboot.shop.api.shop.modules.product.dto.ProductDto;
 
@@ -21,6 +24,7 @@ public class ProductService {
     
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final CloudinaryService cloudinaryService;
 
     @Transactional
     public ProductDto save(ProductBodyDto body) {
@@ -90,5 +94,49 @@ public class ProductService {
         productRepository.delete(product);
 
         return productMapper.toDto(product);
+    }
+
+    @Transactional
+    public Map<?, ?> uploadImage(
+        String code,
+        MultipartFile image
+    ) throws Exception  {
+        Product product = productRepository.findByCode(code)
+            .orElseThrow(() -> new ResourceNotFoundException("El producto no pudo ser encontrado"));
+
+        Map<?, ?> cloudinaryResult = null;
+        try {
+            cloudinaryResult = cloudinaryService.uploadImage(image, "products");
+        } catch (Exception e) {
+            throw new Exception("Error al subir la imagen");
+        }
+
+        product.setImageUrl(cloudinaryResult.get("url").toString());
+        product.setPublicImageId(cloudinaryResult.get("publicId").toString());
+
+        productRepository.save(product);
+
+        return cloudinaryResult;
+    }
+
+    @Transactional
+    public void deleteImage(
+        String code
+    ) throws Exception {
+       Product product = productRepository.findByCode(code)
+            .orElseThrow(() -> new ResourceNotFoundException("El producto no pudo ser encontrado"));
+
+        try {
+            cloudinaryService.deleteImage(product.getPublicImageId());
+        } catch (Exception e) {
+             throw new Exception("Error al subir la imagen");
+        }
+
+        product.setImageUrl(null);
+        product.setPublicImageId(null);
+
+        productRepository.save(product);
+
+        
     }
 }

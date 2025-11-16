@@ -20,4 +20,5 @@ public class ProductDto {
     private Integer stock;
     private Boolean isAvailable;
     private Integer discount;
+    private String imageUrl;
 }

@@ -31,4 +31,9 @@ public class CloudinaryService {
             "publicId", uploadResult.get("public_id").toString()
         );
     }
+    
+    public void deleteImage(String publicId) throws IOException {
+
+        cloudinary.uploader().destroy(publicId,  ObjectUtils.emptyMap());
+    }
 }
