@@ -1,22 +1,23 @@
-# Tienda Online - Backend (Versión 1)
+# Tienda Online - Backend (Versión 1+)
 
-Proyecto backend para una tienda online construido con **Spring Boot**, **Java 25** y **MySQL**. Este repositorio corresponde a la **Versión 1**, centrada exclusivamente en el **CRUD de productos**, sentando las bases para la evolución futura del sistema.
+Proyecto backend para una tienda online construido con **Spring Boot**, **Java 25** y **MySQL**. Esta versión corresponde a la **Versión 1+**, con **CRUD de productos**, **CRUD de categorías**, integración con **Cloudinary** para manejo de imágenes y la relación **categorías N:M** lista para asignar productos a categorías.
 
 ---
 
-## ✅ Objetivo de la Versión 1
+## ✅ Objetivo de la Versión 1+
 
-La primera versión del proyecto implementa:
+Esta versión del proyecto incluye:
 
-* CRUD completo de productos.
+* CRUD completo de **productos**.
+* CRUD completo de **categorías**.
+* Relación **categorías N:M** entre productos y categorías.
 * Validaciones en DTOs y en la capa de servicio.
 * Paginación incluida.
-* Filtros básicos para listar productos.
+* Filtros básicos para listar productos y proximamento por categorias.
 * Respuesta estandarizada tanto para **item individual** como para **lista**.
 * Documentación generada mediante **OpenAPI / Swagger**.
-* Integración con **MySQL** mediante Docker (solo para la base de datos por ahora).
-
-Esta versión actúa como la base del sistema de e-commerce que evolucionará con el tiempo.
+* Integración con **MySQL** mediante Docker.
+* Integración con **Cloudinary** para gestión de imágenes.
 
 ---
 
@@ -30,31 +31,27 @@ Esta versión actúa como la base del sistema de e-commerce que evolucionará co
 * Spring Data JPA
 * Spring Validation
 * OpenAPI (Swagger UI)
+* Cloudinary SDK
 
 **Base de datos:**
 
 * MySQL (contenedor Docker)
 
-**Futuro:**
-
-* Frontend en React (no incluido aún)
-* Docker Compose para todo el ecosistema
-
 ---
 
-## ✅ Ejecución del proyecto
+## ✅ Ejecución del backend
 
 Puedes ejecutar el proyecto de dos maneras:
 
 ### 1. Usando Maven Wrapper
 
-```
+```bash
 ./mvnw spring-boot:run
 ```
 
 ### 2. Usando Maven instalado en tu sistema
 
-```
+```bash
 mvn spring-boot:run
 ```
 
@@ -62,68 +59,87 @@ mvn spring-boot:run
 
 Asegúrate de tener MySQL corriendo en un contenedor:
 
-```
+```bash
 docker compose up -d
 ```
 
 ---
 
+## ✅ Integración con el frontend
+
+El frontend en React se conecta al backend mediante los endpoints de la API.
+Asegúrate de que:
+
+* El backend esté corriendo en `http://localhost:8080`.
+* El frontend tenga configurada la URL base del backend para consumir los endpoints.
+
+Repositorio del frontend:
+[**Frontend React - Tienda Online**](https://github.com/fernandohuerta824/shop-react-app)
+
+---
+
 ## ✅ Documentación de la API
 
-Una vez ejecutado el proyecto, la documentación estará disponible en:
+Una vez ejecutado el backend, la documentación estará disponible en:
 
 * **Swagger UI:** `http://localhost:8080/swagger-ui.html`
 * **OpenAPI JSON:** `http://localhost:8080/v3/api-docs`
 
 Incluye:
 
-* Endpoints del CRUD de productos
+* Endpoints del CRUD de productos y categorías
 * Validaciones
 * Ejemplos
 * Modelos
+* Documentación de integración con Cloudinary (subida de imágenes)
 
 ---
 
-## ✅ Arquitectura (Versión 1)
+## ✅ Arquitectura (Versión 1+)
 
 ```
-src/main/java
-└── com.tienda
-     ├── common
-     │     ├── exceptions
-     │     └── response
-     └── modules
-           ├── products
-           │     ├── controller
-           │     ├── service
-           │     ├── repository
-           │     ├── dto
-           │     └── model
-           └── user   (para la Versión 2)
-
+ShopApplication.java
+│
+├───common
+│   ├───config
+│   └───constants
+│      
+│
+├───domain
+│   ├───exception
+│   ├───mapper
+│   ├───response
+│   │       ApiPageResponse.java
+│   │       ApiResponse.java
+│   │       BuildResponse.java
+│   └───validation
+│
+└───modules
+    ├───category
+    ├───cloudinary
+    ├───handlerException
+    └───product
 ```
 
-* **controller:** Manejo de endpoints.
-* **service:** Lógica de negocio y validaciones extra.
-* **repository:** Acceso a datos con JPA.
-* **dto:** Entrada y salida de datos con validaciones.
-* **common:** Manejo de excepciones y formato estándar de respuesta y mas modulos importantes.
+**Explicación rápida:**
+
+* `common` → configuración general, constantes y seeds iniciales.
+* `domain` → lógica transversal: códigos, excepciones, mappers, respuestas y validaciones.
+* `modules` → cada módulo es independiente (productos, categorías, Cloudinary, manejo de excepciones).
 
 ---
 
 ## ✅ Roadmap del proyecto
 
-Este proyecto crecerá mediante versiones progresivas, ampliando funcionalidades y robustez.
+### **v1 – CRUD de Productos y Categorías** ✅ *Versión actual*
 
-### **v1 – CRUD de Productos** ✅ *Versión actual*
+### **v1.1 – Cloudinary + Asignación Categorías N:M**
 
 ### **v2 – CRUD de Usuarios**
 
 ### **v3 – Autenticación y Autorización** (JWT, roles, permisos)
 
-### **v4 – Imágenes y archivos** (upload, almacenamiento, asociación a productos)
-
-### **v5 – Toda la lógica de negocios** (categorías, carritos, órdenes, facturas, pago, stock, etc.)
+### **v4 – Toda la lógica de negocios** (carritos, órdenes, facturas, pago, stock, etc.)
 
 Cada versión se construirá sobre la anterior, manteniendo una arquitectura modular y escalable.
 
@@ -131,12 +147,10 @@ Cada versión se construirá sobre la anterior, manteniendo una arquitectura mod
 
 ## ✅ Estado actual del proyecto
 
-✔️ En desarrollo de la **Versión 1**
+✔️ En desarrollo de la **Versión 1+**
 
-El objetivo es tener una base sólida, organizada y preparada para las siguientes etapas del proyecto.
+* CRUD de productos y categorías funcionando.
+* Cloudinary integrado para subir imágenes.
+* Relación **categorías N:M** implementada (asignación pendiente).
+* Frontend en React desarrollado en repositorio separado.
 
----
-
-## ✅ Notas finales
-
-Este proyecto busca evolucionar hacia un backend completo de e-commerce, manteniendo orden, buenas prácticas y una arquitectura clara. Toda contribución o iteración futura seguirá la estructura aquí definida.

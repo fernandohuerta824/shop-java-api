@@ -28,7 +28,7 @@ public class SeedConfig implements CommandLineRunner {
         Random ran = new Random();
 
         if(productRepository.count() < 1) {
-            for(int i = 0; i < 834; i ++) {
+            for(int i = 0; i < 0; i ++) {
                 Product p = new Product();
     
                 p.setName(faker.commerce().productName());
