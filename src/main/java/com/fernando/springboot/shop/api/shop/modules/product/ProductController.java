@@ -45,10 +45,12 @@ public class ProductController {
         @RequestParam(required = false) BigDecimal minPrice,
         @RequestParam(required = false) BigDecimal maxPrice,
         @RequestParam(required = false) Boolean isAvailable,
-        @RequestParam(required = false, defaultValue = "0") Integer page
+        @RequestParam(required = false, defaultValue = "0") Integer page,
+        @RequestParam(required = false, defaultValue = "asc") String sortDir,
+        @RequestParam(required = false) String sortBy
 
     ) {
-        Page<ProductDto> pageProduct = productService.findAll(name, minPrice, maxPrice, isAvailable, page);
+        Page<ProductDto> pageProduct = productService.findAll(name, minPrice, maxPrice, isAvailable, page, sortDir, sortBy);
 
         return BuildResponse.build("Productos recuperados correctamente", HttpStatus.OK, pageProduct);
 

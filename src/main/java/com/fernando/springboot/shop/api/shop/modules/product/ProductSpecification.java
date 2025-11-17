@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import jakarta.persistence.criteria.Expression;
+
 public final class ProductSpecification {
     
     private ProductSpecification() {}
@@ -27,23 +29,29 @@ public final class ProductSpecification {
                 return null;
             }
 
+            Expression<BigDecimal> discount = cb.coalesce(root.get("discount"), BigDecimal.ZERO);
+            Expression<BigDecimal> finalPrice = cb.diff(
+                root.get("price"), 
+                cb.prod(root.get("price"), cb.quot(discount, BigDecimal.valueOf(100))).as(BigDecimal.class)
+            );
+
             if(minPrice != null && maxPrice != null) {
                 return cb.between(
-                    root.get("price"), 
+                    finalPrice, 
                     minPrice, 
                     maxPrice
                 );
             }
-
+            
             if(minPrice != null) {
                 return cb.greaterThanOrEqualTo(
-                    root.get("price"), 
+                    finalPrice,
                     minPrice
                 );
             }
 
             return cb.lessThanOrEqualTo(
-                root.get("price"), 
+                finalPrice,
                 maxPrice
             );
         };

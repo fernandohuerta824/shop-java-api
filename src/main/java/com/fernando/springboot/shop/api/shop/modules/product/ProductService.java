@@ -1,10 +1,13 @@
 package com.fernando.springboot.shop.api.shop.modules.product;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,17 +45,29 @@ public class ProductService {
         BigDecimal minPrice,
         BigDecimal maxPrice,
         Boolean isAvailable,
-        Integer page
+        Integer page,
+        String sortDir,
+        String sortBy
     ) {
         if(page < 0) {
             page = 0;
+        }
+
+        Sort sort = Sort.unsorted();
+
+        List<String> allowedSortFields = List.of("name", "price");
+
+        if(sortBy != null && allowedSortFields.contains(sortBy)) {
+            Direction dir = sortDir.equalsIgnoreCase("desc") ? Direction.DESC : Direction.ASC;
+
+            sort = Sort.by(dir, sortBy);
         }
 
         Page<Product> productPage = productRepository.findAll(
             ProductSpecification.hasName(name)
             .and(ProductSpecification.priceBetween(minPrice, maxPrice))
             .and(ProductSpecification.isAvailable(isAvailable)),
-            PageRequest.of(page, 20)
+            PageRequest.of(page, 20, sort)
         );
 
         return productPage.map(productMapper::toDto);

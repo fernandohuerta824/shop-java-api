@@ -28,7 +28,7 @@ public class SeedConfig implements CommandLineRunner {
         Random ran = new Random();
 
         if(productRepository.count() < 1) {
-            for(int i = 0; i < 10_000; i ++) {
+            for(int i = 0; i < 834; i ++) {
                 Product p = new Product();
     
                 p.setName(faker.commerce().productName());
@@ -36,7 +36,7 @@ public class SeedConfig implements CommandLineRunner {
                 p.setDescription(faker.lorem().sentence(20));
                 p.setPrice(
                     BigDecimal.valueOf(
-                        faker.number().randomDouble(2, 30, 2000)
+                        faker.number().randomDouble(2, 30, 8000)
                     )
                 );
     
