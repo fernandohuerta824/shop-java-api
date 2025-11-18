@@ -1,4 +1,4 @@
-package com.fernando.springboot.shop.api.shop.modules.category;
+package com.fernando.springboot.shop.api.shop.modules.category.v1;
 
 import java.util.Set;
 
@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.fernando.springboot.shop.api.shop.domain.exception.BussinesException;
 import com.fernando.springboot.shop.api.shop.domain.exception.ResourceAlreadyExistsException;
 import com.fernando.springboot.shop.api.shop.domain.exception.ResourceNotFoundException;
-import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryBodyDto;
-import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryDto;
+import com.fernando.springboot.shop.api.shop.modules.category.Category;
+import com.fernando.springboot.shop.api.shop.modules.category.CategoryRepository;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryBodyDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryDto;
 
 import lombok.AllArgsConstructor;
 

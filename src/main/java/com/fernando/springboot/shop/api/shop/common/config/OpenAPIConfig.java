@@ -1,5 +1,6 @@
 package com.fernando.springboot.shop.api.shop.common.config;
 
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,5 +17,23 @@ public class OpenAPIConfig {
                 .title("API de una tienda online")
                 .version("1.0.0")
             );
+    }
+
+    @Bean
+    public GroupedOpenApi v1Group() {
+        return GroupedOpenApi
+            .builder()
+            .group("v1")
+            .pathsToMatch("/api/v1/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi v2Group() {
+        return GroupedOpenApi
+            .builder()
+            .group("v2")
+            .pathsToMatch("/api/v2/**")
+            .build();
     }
 }

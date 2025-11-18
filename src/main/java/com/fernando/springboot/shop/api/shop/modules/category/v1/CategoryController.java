@@ -1,4 +1,4 @@
-package com.fernando.springboot.shop.api.shop.modules.category;
+package com.fernando.springboot.shop.api.shop.modules.category.v1;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,8 @@ import com.fernando.springboot.shop.api.shop.domain.response.ApiResponse;
 import com.fernando.springboot.shop.api.shop.domain.response.BuildResponse;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnCreate;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
-import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryBodyDto;
-import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryBodyDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

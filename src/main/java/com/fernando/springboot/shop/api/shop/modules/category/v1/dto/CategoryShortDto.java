@@ -1,4 +1,4 @@
-package com.fernando.springboot.shop.api.shop.modules.category.dto;
+package com.fernando.springboot.shop.api.shop.modules.category.v1.dto;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.fernando.springboot.shop.api.shop.modules.category;
+package com.fernando.springboot.shop.api.shop.modules.category.v1;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;
@@ -8,9 +8,10 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import com.fernando.springboot.shop.api.shop.domain.mapper.BaseMapper;
-import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryBodyDto;
-import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryDto;
-import com.fernando.springboot.shop.api.shop.modules.category.dto.CategoryShortDto;
+import com.fernando.springboot.shop.api.shop.modules.category.Category;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryBodyDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryShortDto;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CategoryMapper extends BaseMapper<Category, CategoryDto> {
