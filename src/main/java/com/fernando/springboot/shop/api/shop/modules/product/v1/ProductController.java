@@ -1,4 +1,4 @@
-package com.fernando.springboot.shop.api.shop.modules.product;
+package com.fernando.springboot.shop.api.shop.modules.product.v1;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -23,8 +23,8 @@ import com.fernando.springboot.shop.api.shop.domain.response.ApiResponse;
 import com.fernando.springboot.shop.api.shop.domain.response.BuildResponse;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnCreate;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
-import com.fernando.springboot.shop.api.shop.modules.product.dto.ProductBodyDto;
-import com.fernando.springboot.shop.api.shop.modules.product.dto.ProductDto;
+import com.fernando.springboot.shop.api.shop.modules.product.v1.dto.ProductBodyDto;
+import com.fernando.springboot.shop.api.shop.modules.product.v1.dto.ProductDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

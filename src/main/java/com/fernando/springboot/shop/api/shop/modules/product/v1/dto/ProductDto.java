@@ -1,4 +1,4 @@
-package com.fernando.springboot.shop.api.shop.modules.product.dto;
+package com.fernando.springboot.shop.api.shop.modules.product.v1.dto;
 
 import java.math.BigDecimal;
 

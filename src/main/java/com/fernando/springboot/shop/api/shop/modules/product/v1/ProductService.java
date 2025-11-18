@@ -1,4 +1,4 @@
-package com.fernando.springboot.shop.api.shop.modules.product;
+package com.fernando.springboot.shop.api.shop.modules.product.v1;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,8 +16,11 @@ import com.fernando.springboot.shop.api.shop.common.constants.FieldLengths;
 import com.fernando.springboot.shop.api.shop.domain.code.GenerateCode;
 import com.fernando.springboot.shop.api.shop.domain.exception.ResourceNotFoundException;
 import com.fernando.springboot.shop.api.shop.modules.cloudinary.CloudinaryService;
-import com.fernando.springboot.shop.api.shop.modules.product.dto.ProductBodyDto;
-import com.fernando.springboot.shop.api.shop.modules.product.dto.ProductDto;
+import com.fernando.springboot.shop.api.shop.modules.product.Product;
+import com.fernando.springboot.shop.api.shop.modules.product.ProductRepository;
+import com.fernando.springboot.shop.api.shop.modules.product.ProductSpecification;
+import com.fernando.springboot.shop.api.shop.modules.product.v1.dto.ProductBodyDto;
+import com.fernando.springboot.shop.api.shop.modules.product.v1.dto.ProductDto;
 
 import lombok.AllArgsConstructor;
 
