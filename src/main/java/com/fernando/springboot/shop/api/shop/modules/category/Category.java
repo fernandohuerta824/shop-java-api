@@ -41,6 +41,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
+    @Column(updatable = false)
     private Long id;
 
     @Column(length = FieldLengths.MAX_SHORT_NAME, unique = true, nullable = false)
