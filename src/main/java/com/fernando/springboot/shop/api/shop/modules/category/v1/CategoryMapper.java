@@ -1,5 +1,7 @@
 package com.fernando.springboot.shop.api.shop.modules.category.v1;
 
+import java.util.Set;
+
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
@@ -33,6 +35,8 @@ public interface CategoryMapper extends BaseMapper<Category, CategoryDto> {
 
     @Mapping(target = "parentCategory", ignore = true)
     CategoryShortDto toShortDto(Category entity);
+
+    Set<CategoryShortDto> toShortDtoSet(Set<Category> categories);
 
     @AfterMapping
     default void mapCategoryId(

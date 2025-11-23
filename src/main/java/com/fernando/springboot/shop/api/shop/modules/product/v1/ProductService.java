@@ -3,6 +3,7 @@ package com.fernando.springboot.shop.api.shop.modules.product.v1;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale.Category;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fernando.springboot.shop.api.shop.common.constants.FieldLengths;
 import com.fernando.springboot.shop.api.shop.domain.code.GenerateCode;
 import com.fernando.springboot.shop.api.shop.domain.exception.ResourceNotFoundException;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.CategoryMapper;
 import com.fernando.springboot.shop.api.shop.modules.cloudinary.CloudinaryService;
 import com.fernando.springboot.shop.api.shop.modules.product.Product;
 import com.fernando.springboot.shop.api.shop.modules.product.ProductRepository;
@@ -31,6 +33,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final CloudinaryService cloudinaryService;
+    private final CategoryMapper categoryMapper;
 
     @Transactional
     public ProductDto save(ProductBodyDto body) {
@@ -50,7 +53,8 @@ public class ProductService {
         Boolean isAvailable,
         Integer page,
         String sortDir,
-        String sortBy
+        String sortBy,
+        Boolean includeCategories
     ) {
         if(page < 0) {
             page = 0;
@@ -73,7 +77,7 @@ public class ProductService {
             PageRequest.of(page, 20, sort)
         );
 
-        return productPage.map(productMapper::toDto);
+        return productPage.map(r -> productMapper.toDto(r, includeCategories, categoryMapper));
     }
 
     @Transactional(readOnly = true)

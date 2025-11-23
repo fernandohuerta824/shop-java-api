@@ -6,6 +6,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fernando.springboot.shop.api.shop.modules.category.Category;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryShortDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,5 +29,5 @@ public class ProductDto {
     private String imageUrl;
 
     @JsonInclude(value  = Include.NON_NULL)
-    private Set<Category> categories;
+    private Set<CategoryShortDto> categories;
 }

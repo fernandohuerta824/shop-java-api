@@ -25,19 +25,20 @@ import com.fernando.springboot.shop.api.shop.modules.product.v2.dto.ProductBodyD
     uses = {CategoryMapper.class}
 )
 public interface ProductMapper extends BaseMapper<Product, ProductDto> {
-
+    
     @Mapping(target = "categories", ignore = true)
-    ProductDto toDto(Product product, @Context boolean includeCategories);
+    ProductDto toDto(Product product, @Context boolean includeCategories, @Context CategoryMapper categoryMapper);
 
     @AfterMapping
     default void mapCategories(
         @MappingTarget ProductDto dto,
         Product product, 
-        @Context boolean includeCategories
+        @Context boolean includeCategories,
+        @Context CategoryMapper categoryMapper
     ) {
         if(includeCategories) {
             Set<Category> categories = product.getCategories();
-            dto.setCategories(categories.isEmpty() ? HashSet.newHashSet(0) : categories);
+            dto.setCategories(categories.isEmpty() ? HashSet.newHashSet(0) : categoryMapper.toShortDtoSet(categories));
             return;
         }
 
