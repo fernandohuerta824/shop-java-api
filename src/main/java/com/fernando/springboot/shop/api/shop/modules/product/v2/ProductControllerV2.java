@@ -1,9 +1,14 @@
-                                                              package com.fernando.springboot.shop.api.shop.modules.product.v2;
+package com.fernando.springboot.shop.api.shop.modules.product.v2;
+
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fernando.springboot.shop.api.shop.domain.response.ApiResponse;
 import com.fernando.springboot.shop.api.shop.domain.response.BuildResponse;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnCreate;
+import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
+import com.fernando.springboot.shop.api.shop.modules.category.Category;
 import com.fernando.springboot.shop.api.shop.modules.product.v1.dto.ProductDto;
 import com.fernando.springboot.shop.api.shop.modules.product.v2.dto.ProductBodyDtoV2;
 
@@ -39,4 +46,17 @@ public class ProductControllerV2 {
         );
     }
 
+    @PatchMapping("/{code}")
+    public ResponseEntity<ApiResponse<ProductDto>> update(
+        @RequestBody @Validated(OnUpdate.class) ProductBodyDtoV2 body ,
+        @PathVariable String code
+    ) {
+        ProductDto product = productServiceV2.update(code, body);
+
+        return BuildResponse.build(
+            "Producto actualizado correctamente", 
+            HttpStatus.OK, 
+            product
+        );
+    }
 }

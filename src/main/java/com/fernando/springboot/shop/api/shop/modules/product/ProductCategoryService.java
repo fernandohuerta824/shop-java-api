@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -76,6 +78,27 @@ public class ProductCategoryService {
 
         validateHierarchy(categories);
 
+        product.setCategories(new HashSet<>(categories));
+    }
+
+    public void updateCategories(Set<Long> categoriesId, Product product) {
+
+        Set<Long> originalCategories = product.getCategories().stream().map(c -> c.getId()).collect(Collectors.toSet());
+
+        Set<Long> newCategories = new HashSet<>(categoriesId) ;
+        newCategories.removeAll(originalCategories);
+
+        Set<Long> categoriasToRemove = new HashSet<>(originalCategories) ;
+        categoriasToRemove.removeAll(categoriesId);
+
+        Set<Long> allProductCategories = new HashSet<>(originalCategories);
+        allProductCategories.addAll(newCategories);
+        allProductCategories.removeAll(categoriasToRemove);
+
+        List<Category> categories = categoryRepository.findAllById(allProductCategories);
+
+        validateHierarchy(categories);
+        
         product.setCategories(new HashSet<>(categories));
     }
 }

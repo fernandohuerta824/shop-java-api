@@ -1,8 +1,14 @@
 package com.fernando.springboot.shop.api.shop.modules.product.v2;
 
+import java.util.HashSet;
+import java.util.Set;
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fernando.springboot.shop.api.shop.domain.exception.ResourceNotFoundException;
+import com.fernando.springboot.shop.api.shop.modules.category.Category;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.CategoryMapper;
 import com.fernando.springboot.shop.api.shop.modules.product.Product;
 import com.fernando.springboot.shop.api.shop.modules.product.ProductCategoryService;
@@ -34,5 +40,20 @@ public class ProductServiceV2 {
 
         productRepository.save(product);
         return productMapper.toDto(product, true, categoryMapper);
+    }
+
+    @Transactional
+    public ProductDto update(
+        String code,
+        ProductBodyDtoV2 body
+    ) {
+        Product product = productRepository.findByCode(code)
+            .orElseThrow(() -> new ResourceNotFoundException("El producto con el codigo " + code + "no existe"));
+        
+        productMapper.updateEntity(body, product);
+        
+        productCategoryService.updateCategories(body.getCategoriesId(), product);
+
+        return productMapper.toDto(product);
     }
 }
