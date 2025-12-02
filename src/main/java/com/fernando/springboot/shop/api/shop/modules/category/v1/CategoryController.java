@@ -21,6 +21,7 @@ import com.fernando.springboot.shop.api.shop.domain.validation.OnCreate;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryBodyDto;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryTreeDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -102,6 +103,18 @@ public class CategoryController {
             "Category eliminada correctamente", 
             HttpStatus.OK, 
             category
+        );
+    }
+
+    @GetMapping("/tree")
+    public ResponseEntity<ApiPageResponse<CategoryTreeDto>> tree() {
+
+        Page<CategoryTreeDto> categories = categoryService.tree();
+
+        return BuildResponse.build(
+            "Categorias recuperadas correctamente", 
+            HttpStatus.OK, 
+            categories
         );
     }
 }

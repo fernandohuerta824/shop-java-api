@@ -1,6 +1,8 @@
 package com.fernando.springboot.shop.api.shop.modules.category.v1;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Context;
@@ -14,6 +16,7 @@ import com.fernando.springboot.shop.api.shop.modules.category.Category;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryBodyDto;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryDto;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryShortDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryTreeDto;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CategoryMapper extends BaseMapper<Category, CategoryDto> {
@@ -67,4 +70,14 @@ public interface CategoryMapper extends BaseMapper<Category, CategoryDto> {
         CategoryBodyDto dto,
         @Context Category parentCategory
     );
+
+    CategoryTreeDto toTreeDto(Category entity);
+    
+    @AfterMapping
+    default void setChildrenCategories(
+        Category entity,
+        @MappingTarget CategoryTreeDto dto
+    ) {
+        dto.setChildCategories(new HashSet<>());
+    }
 }
