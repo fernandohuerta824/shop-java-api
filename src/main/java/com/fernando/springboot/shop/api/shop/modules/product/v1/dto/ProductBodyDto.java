@@ -31,12 +31,12 @@ public class ProductBodyDto {
 
     @NotNull(message = "El precio es obligatorio", groups = {OnCreate.class})
     @Positive(message = "El precio debe ser mayor a cero", groups = {OnCreate.class, OnUpdate.class})
-    @Max(value = 99_999, message = "El precio deber ser menor a 100,000", groups = {OnCreate.class, OnUpdate.class})
+    @Max(value = 100_000, message = "El precio deber ser menor a 100,000", groups = {OnCreate.class, OnUpdate.class})
     private BigDecimal price;
 
     @NotNull(message = "El stock es obligatorio", groups = {OnCreate.class})
     @Min(value = 0, message = "El stock debe ser mayor a 0", groups = {OnCreate.class, OnUpdate.class})
-    @Max(value = 999, message = "El stock debe ser menor a 1,000", groups = {OnCreate.class, OnUpdate.class})
+    @Max(value = 1_000, message = "El stock debe ser menor a 1,000", groups = {OnCreate.class, OnUpdate.class})
     private Integer stock;
 
     @Min(value = 0, message = "El descuento deber mayor a 0", groups = {OnCreate.class, OnUpdate.class})
