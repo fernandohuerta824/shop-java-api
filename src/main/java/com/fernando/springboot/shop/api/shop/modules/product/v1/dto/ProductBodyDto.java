@@ -8,6 +8,7 @@ import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -22,11 +23,11 @@ import lombok.Setter;
 @Setter
 public class ProductBodyDto {
 
-    @NotNull(message = "El nombre es obligatorio", groups = {OnCreate.class})
-    @Size(max = FieldLengths.MAX_NAME, message = "El nombre deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(message = "El nombre es obligatorio", groups = {OnCreate.class})
+    @Size(min = FieldLengths.MIN_NAME,max = FieldLengths.MAX_NAME, message = "El nombre deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
     private String name;
 
-    @Size(max = FieldLengths.MAX_DESCRIPTION, message = "La descripcion deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
+    @Size(min = FieldLengths.MIN_NAME, max = FieldLengths.MAX_DESCRIPTION, message = "La descripcion deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
     private String description;
 
     @NotNull(message = "El precio es obligatorio", groups = {OnCreate.class})

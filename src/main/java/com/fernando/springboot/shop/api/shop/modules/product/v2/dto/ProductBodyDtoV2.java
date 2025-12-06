@@ -9,6 +9,7 @@ import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -24,21 +25,21 @@ import lombok.Setter;
 @Setter
 public class ProductBodyDtoV2 {
 
-    @NotNull(message = "El nombre es obligatorio", groups = {OnCreate.class})
-    @Size(max = FieldLengths.MAX_NAME, message = "El nombre deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(message = "El nombre es obligatorio", groups = {OnCreate.class})
+    @Size(min = FieldLengths.MIN_NAME,max = FieldLengths.MAX_NAME, message = "El nombre deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
     private String name;
 
-    @Size(max = FieldLengths.MAX_DESCRIPTION, message = "La descripcion deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
+    @Size(min = FieldLengths.MIN_NAME, max = FieldLengths.MAX_DESCRIPTION, message = "La descripcion deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
     private String description;
 
     @NotNull(message = "El precio es obligatorio", groups = {OnCreate.class})
     @Positive(message = "El precio debe ser mayor a cero", groups = {OnCreate.class, OnUpdate.class})
-    @Max(value = 99_999, message = "El precio deber ser menor a 100,000", groups = {OnCreate.class, OnUpdate.class})
+    @Max(value = 100_000, message = "El precio deber ser menor a 100,000", groups = {OnCreate.class, OnUpdate.class})
     private BigDecimal price;
 
     @NotNull(message = "El stock es obligatorio", groups = {OnCreate.class})
     @Min(value = 0, message = "El stock debe ser mayor a 0", groups = {OnCreate.class, OnUpdate.class})
-    @Max(value = 999, message = "El stock debe ser menor a 1,000", groups = {OnCreate.class, OnUpdate.class})
+    @Max(value = 1_000, message = "El stock debe ser menor a 1,000", groups = {OnCreate.class, OnUpdate.class})
     private Integer stock;
 
     @Min(value = 0, message = "El descuento deber mayor a 0", groups = {OnCreate.class, OnUpdate.class})
