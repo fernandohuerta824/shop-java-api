@@ -21,6 +21,7 @@ import com.fernando.springboot.shop.api.shop.domain.validation.OnCreate;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryBodyDto;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryShortDto;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryTreeDto;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -107,6 +108,7 @@ public class CategoryController {
     }
 
     @GetMapping("/tree")
+    @Operation(summary = "Obtiene todo el arbol de categorias")
     public ResponseEntity<ApiPageResponse<CategoryTreeDto>> tree() {
 
         Page<CategoryTreeDto> categories = categoryService.tree();
@@ -117,4 +119,20 @@ public class CategoryController {
             categories
         );
     }
+
+    @GetMapping("/{id}/children")
+    @Operation(summary = "Obtiene todo los hijos de una categoria")
+    public ResponseEntity<ApiPageResponse<CategoryShortDto>> findCategoryChildren(
+        @PathVariable Long id,
+        @RequestParam(defaultValue = "0", required = false) Integer page
+    ) {
+        Page<CategoryShortDto> categories = categoryService.findCategoryChildren(id, page);
+
+        return BuildResponse.build(
+            "Categorias recuperadas correctamente", 
+            HttpStatus.OK, 
+            categories
+        );
+    }
+
 }

@@ -2,11 +2,8 @@ package com.fernando.springboot.shop.api.shop.modules.category.v1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +17,7 @@ import com.fernando.springboot.shop.api.shop.modules.category.Category;
 import com.fernando.springboot.shop.api.shop.modules.category.CategoryRepository;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryBodyDto;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryDto;
+import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryShortDto;
 import com.fernando.springboot.shop.api.shop.modules.category.v1.dto.CategoryTreeDto;
 
 import lombok.AllArgsConstructor;
@@ -141,4 +139,22 @@ public class CategoryService {
                 roots.size());
     }
 
+    public Page<CategoryShortDto> findCategoryChildren(Long id, Integer page) {
+
+        Category category = null;
+
+        if(id > 0) {
+            category = categoryRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("La categoria con el id " + id + " no existe"));
+        }
+
+        if(page < 0) {
+            page = 0;
+        }
+        Pageable pageable = PageRequest.of(page, 20);
+
+        Page<Category> categories = categoryRepository.findByParentCategory(category, pageable);
+
+        return categories.map(categoryMapper::toShortDto);
+    }
 }
