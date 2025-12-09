@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,16 +65,24 @@ public class ProductService {
 
         List<String> allowedSortFields = List.of("name", "price");
 
+        Specification<Product> spec = ProductSpecification.hasName(name)
+            .and(ProductSpecification.priceBetween(minPrice, maxPrice))
+            .and(ProductSpecification.isAvailable(isAvailable));
+
         if(sortBy != null && allowedSortFields.contains(sortBy)) {
             Direction dir = sortDir.equalsIgnoreCase("desc") ? Direction.DESC : Direction.ASC;
 
-            sort = Sort.by(dir, sortBy);
+            if(sortBy.equalsIgnoreCase("price")) {
+                spec = spec.and(
+                    ProductSpecification.orderByFinalPrice(dir)
+                );
+            } else {
+                sort = Sort.by(dir, sortBy);
+            }
         }
 
         Page<Product> productPage = productRepository.findAll(
-            ProductSpecification.hasName(name)
-            .and(ProductSpecification.priceBetween(minPrice, maxPrice))
-            .and(ProductSpecification.isAvailable(isAvailable)),
+            spec,
             PageRequest.of(page, 20, sort)
         );
 

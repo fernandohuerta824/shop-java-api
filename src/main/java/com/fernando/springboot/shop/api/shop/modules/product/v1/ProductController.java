@@ -51,6 +51,7 @@ public class ProductController {
         @RequestParam(required = false, defaultValue = "false") Boolean includeCategories
 
     ) {
+        System.out.println(sortBy + " "  + sortDir);
         Page<ProductDto> pageProduct = productService.findAll(
             name, 
             minPrice, 
@@ -61,7 +62,7 @@ public class ProductController {
             sortBy,
             includeCategories
         );
-
+        
         return BuildResponse.build("Productos recuperados correctamente", HttpStatus.OK, pageProduct);
 
     }

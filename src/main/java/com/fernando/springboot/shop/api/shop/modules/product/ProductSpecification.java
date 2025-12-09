@@ -2,6 +2,7 @@ package com.fernando.springboot.shop.api.shop.modules.product;
 
 import java.math.BigDecimal;
 
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 
 import jakarta.persistence.criteria.Expression;
@@ -78,5 +79,22 @@ public final class ProductSpecification {
 
     }
     
+    public static Specification<Product> orderByFinalPrice(Direction dir) {
+    return (root, query, cb) -> {
+        Expression<BigDecimal> discount = cb.coalesce(root.get("discount"), BigDecimal.ZERO);
+            Expression<BigDecimal> finalPrice = cb.diff(
+                root.get("price"), 
+                cb.prod(root.get("price"), cb.quot(discount, BigDecimal.valueOf(100))).as(BigDecimal.class)
+            );
+
+        query.orderBy(
+            dir == Direction.DESC
+                ? cb.desc(finalPrice)
+                : cb.asc(finalPrice)
+        );
+
+        return cb.conjunction();
+    };
+}
     
 }
