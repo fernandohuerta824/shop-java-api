@@ -142,11 +142,20 @@ public class ProductService {
             throw new Exception("Error al subir la imagen");
         }
 
+
+        if(product.getPublicImageId() != null) {
+            try {
+                cloudinaryService.deleteImage(product.getPublicImageId());
+            } catch (Exception e) {
+            
+            }
+            
+        }
         product.setImageUrl(cloudinaryResult.get("url").toString());
         product.setPublicImageId(cloudinaryResult.get("publicId").toString());
-
+        
         productRepository.save(product);
-
+        
         return cloudinaryResult;
     }
 

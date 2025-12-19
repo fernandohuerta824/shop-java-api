@@ -63,7 +63,7 @@ public class Product {
     @Column(name = "image_url", length = FieldLengths.MAX_URL)
     private String imageUrl;
 
-    @Column(name = "public_image_id", length = FieldLengths.MAX_URL)
+    @Column(name = "public_image_id", length = FieldLengths.MAX_URL, unique = true)
     private String publicImageId;
 
     @CreationTimestamp
