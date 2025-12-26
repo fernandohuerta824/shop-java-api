@@ -1,5 +1,7 @@
 package com.fernando.springboot.shop.api.shop.modules.category.v1.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fernando.springboot.shop.api.shop.common.config.TrimmingStringDeserializer;
 import com.fernando.springboot.shop.api.shop.common.constants.FieldLengths;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnCreate;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
@@ -18,8 +20,10 @@ import lombok.Setter;
 public class CategoryBodyDto {
     @NotBlank(message = "El nombre es obligatorio", groups = {OnCreate.class})
     @Size(max = FieldLengths.MAX_SHORT_NAME, groups = {OnCreate.class, OnUpdate.class}, message = "El nombre debe ser de maximo {max} caracteres" )
+    @JsonDeserialize(using = TrimmingStringDeserializer.class)
     private String name;
-
+    
+    @JsonDeserialize(using = TrimmingStringDeserializer.class)
     @Size(max = FieldLengths.MAX_DESCRIPTION,  message = "La description debe ser de maximo {max} caracteres")
     private String description;
 

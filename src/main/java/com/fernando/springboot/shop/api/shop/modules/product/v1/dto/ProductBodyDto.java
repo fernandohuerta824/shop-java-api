@@ -2,6 +2,8 @@ package com.fernando.springboot.shop.api.shop.modules.product.v1.dto;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fernando.springboot.shop.api.shop.common.config.TrimmingStringDeserializer;
 import com.fernando.springboot.shop.api.shop.common.constants.FieldLengths;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnCreate;
 import com.fernando.springboot.shop.api.shop.domain.validation.OnUpdate;
@@ -25,8 +27,10 @@ public class ProductBodyDto {
 
     @NotBlank(message = "El nombre es obligatorio", groups = {OnCreate.class})
     @Size(min = FieldLengths.MIN_NAME,max = FieldLengths.MAX_NAME, message = "El nombre deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
+    @JsonDeserialize(using = TrimmingStringDeserializer.class)
     private String name;
 
+    @JsonDeserialize(using = TrimmingStringDeserializer.class)
     @Size(min = FieldLengths.MIN_NAME, max = FieldLengths.MAX_DESCRIPTION, message = "La descripcion deber ser de maximo {max} caracteres", groups = {OnCreate.class, OnUpdate.class})
     private String description;
 
