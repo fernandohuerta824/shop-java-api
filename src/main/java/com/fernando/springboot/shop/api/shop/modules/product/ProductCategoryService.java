@@ -31,17 +31,17 @@ public class ProductCategoryService {
         Set<Category> rootCandidates = new HashSet<>();
         for (Category c : categories) {
             Category cur = c.getParentCategory();
-            boolean isChildOfSet = false;
+            boolean isChild = false;
 
             while (cur != null) {
                 if (set.contains(cur)) {
-                    isChildOfSet = true;
+                    isChild = true;
                     break;
                 }
                 cur = cur.getParentCategory();
             }
 
-            if (!isChildOfSet) {
+            if (!isChild) {
                 rootCandidates.add(c);
             }
         }
@@ -49,7 +49,6 @@ public class ProductCategoryService {
         Category aux = rootCandidates.stream().findFirst().get();
 
         for(Category root: rootCandidates) {
-            System.out.println("Equal?: " + Objects.equals(root, aux));
             if(Objects.equals(root, aux)) continue;
             
             Category rootParent = root.getParentCategory();

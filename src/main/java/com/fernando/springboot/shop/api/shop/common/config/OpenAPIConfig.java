@@ -36,4 +36,13 @@ public class OpenAPIConfig {
             .pathsToMatch("/api/v2/**")
             .build();
     }
+
+    @Bean
+    public GroupedOpenApi authGroup() {
+        return GroupedOpenApi
+            .builder()
+            .group("Auth")
+            .pathsToMatch("/auth/**")
+            .build();
+    }
 }
