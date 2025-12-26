@@ -11,7 +11,8 @@ public final class FieldLengths {
     public static final int MAX_DESCRIPTION = 255;
     public static final int MAX_URL = 255;
     public static final int MAX_CODE = 26;
-
-
+    public static final int MAX_PHONE_NUMBER = 15;
+    public static final int MAX_EMAIL = 255;
+    public static final int MAX_PASSWORD = 255;
     
 }
