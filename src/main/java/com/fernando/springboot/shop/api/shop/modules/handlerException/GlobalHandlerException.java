@@ -19,11 +19,17 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import com.fernando.springboot.shop.api.shop.domain.exception.BussinesException;
 import com.fernando.springboot.shop.api.shop.domain.exception.ResourceAlreadyExistsException;
 import com.fernando.springboot.shop.api.shop.domain.exception.ResourceNotFoundException;
+import com.fernando.springboot.shop.api.shop.domain.exception.UnauthorizatedException;
 import com.fernando.springboot.shop.api.shop.domain.response.ApiResponse;
 import com.fernando.springboot.shop.api.shop.domain.response.BuildResponse;
 
 @RestControllerAdvice
 public class GlobalHandlerException {
+
+    @ExceptionHandler({UnauthorizatedException.class}) 
+    public ResponseEntity<ApiResponse<String>> unauthorizatedException(Exception ex) {
+        return BuildResponse.build("Error al iniciar sesion", HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
     
     @ExceptionHandler({ResourceNotFoundException.class, NoResourceFoundException.class, NoHandlerFoundException.class})
     public ResponseEntity<ApiResponse<String>> handleResourcenotFound(Exception ex) {
