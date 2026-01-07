@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.fernando.springboot.shop.api.shop.domain.exception.BussinesException;
@@ -47,6 +48,7 @@ public class CategoryService {
         return categoryMapper.toDto(category);
     }
 
+    @PreAuthorize("hasRole('Admin')")
     public CategoryDto save(CategoryBodyDto body) {
         if (categoryRepository.existsByName(body.getName())) {
             throw new ResourceAlreadyExistsException("La categoria " + body.getName() + " ya existe");
@@ -67,6 +69,7 @@ public class CategoryService {
         return categoryMapper.toDto(category);
     }
 
+    @PreAuthorize("hasRole('Admin')")
     public CategoryDto update(Long id, CategoryBodyDto body) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("La categoria con el id " + id + "no existe"));
@@ -99,6 +102,7 @@ public class CategoryService {
         return categoryMapper.toDto(category);
     }
 
+    @PreAuthorize("hasRole('Admin')")
     public CategoryDto delete(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("La categoria con el id " + id + " no existe"));
