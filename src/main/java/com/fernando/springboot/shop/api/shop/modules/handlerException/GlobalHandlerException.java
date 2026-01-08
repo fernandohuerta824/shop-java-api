@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,26 +28,37 @@ import com.fernando.springboot.shop.api.shop.domain.response.BuildResponse;
 @RestControllerAdvice
 public class GlobalHandlerException {
 
+    // 401 Unauthorized
     @ExceptionHandler({UnauthorizatedException.class}) 
     public ResponseEntity<ApiResponse<String>> unauthorizatedException(Exception ex) {
-        return BuildResponse.build("Error al iniciar sesion", HttpStatus.UNAUTHORIZED, ex.getMessage());
+        return BuildResponse.build("Error al autenticarse", HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    // 403 Forbidden
+    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class}) 
+    public ResponseEntity<ApiResponse<String>> accessDeniedException(Exception ex) {
+        return BuildResponse.build("Error de permisos", HttpStatus.FORBIDDEN, "No tienes permisos para acceder a este recurso");
     }
     
+    // 404 Not Found
     @ExceptionHandler({ResourceNotFoundException.class, NoResourceFoundException.class, NoHandlerFoundException.class})
     public ResponseEntity<ApiResponse<String>> handleResourcenotFound(Exception ex) {
         return BuildResponse.build("Recurso no encontrado", HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    // 409 Conflict (Resource Already Exists)
     @ExceptionHandler({ResourceAlreadyExistsException.class})
     public ResponseEntity<ApiResponse<String>> handleResourceAlreadyExists(ResourceAlreadyExistsException ex) {
         return BuildResponse.build("El recurso ya existe", HttpStatus.CONFLICT, ex.getMessage());
     }
 
+    // 422 Unprocessable Entity (Business Exception)
     @ExceptionHandler({BussinesException.class})
     public ResponseEntity<ApiResponse<String>> handleBussinesException(BussinesException ex) {
         return BuildResponse.build("Error de negocios", HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
     }
 
+    // 422 Unprocessable Entity (Validation Errors)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Map<String, String>>> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -62,6 +75,7 @@ public class GlobalHandlerException {
         );
     }
 
+    // 400 Bad Request (Invalid JSON)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponse<String>> handleInvalidJson(HttpMessageNotReadableException ex) {
         return BuildResponse.build(
@@ -72,6 +86,7 @@ public class GlobalHandlerException {
     }
 
 
+    // 400 Bad Request (Invalid Argument Type)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse<String>> handleInvalidArgumentType(MethodArgumentTypeMismatchException ex) {
         return BuildResponse.build(
@@ -81,7 +96,8 @@ public class GlobalHandlerException {
         );
     }
 
-     @ExceptionHandler(MissingServletRequestParameterException.class)
+    // 400 Bad Request (Missing Request Parameter)
+    @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ApiResponse<String>> handleMissingParam(MissingServletRequestParameterException ex) {
         return BuildResponse.build(
             "Parámetro faltante",
@@ -90,6 +106,7 @@ public class GlobalHandlerException {
         );
     }
 
+    // 405 Method Not Allowed
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiResponse<String>> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex) {
         return BuildResponse.build(
@@ -98,6 +115,8 @@ public class GlobalHandlerException {
             ex.getMessage()
         );
     }
+
+    // 415 Unsupported Media Type
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResponseEntity<ApiResponse<String>> handleMediaNotSupported(HttpMediaTypeNotSupportedException ex) {
         return BuildResponse.build(
@@ -107,6 +126,7 @@ public class GlobalHandlerException {
         );
     }
 
+    // 500 Internal Server Error (Generic Exception)
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<ApiResponse<String>> exceptin(RuntimeException ex) {
         return BuildResponse.build("Error del servidor", HttpStatus.INTERNAL_SERVER_ERROR, "Algo salio mal, por favor intente mas tarde");

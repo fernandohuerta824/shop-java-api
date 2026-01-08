@@ -38,6 +38,10 @@ public class AuthService {
             throw new ResourceAlreadyExistsException("El usuario con el telefono " + dto.getPhoneNumber() + " ya existe");
         }
 
+        if(userRepository.existsByUsername(dto.getUsername())) {
+            throw new ResourceAlreadyExistsException("El usuario con el nombre de usuario" + dto.getUsername() + " ya existe");
+        }
+
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         User user = authMapper.signup(dto);
 

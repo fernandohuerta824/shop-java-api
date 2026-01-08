@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.mapstruct.AfterMapping;
-import org.mapstruct.BeforeMapping;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,11 +17,12 @@ import com.fernando.springboot.shop.api.shop.modules.product.Product;
 import com.fernando.springboot.shop.api.shop.modules.product.v1.dto.ProductBodyDto;
 import com.fernando.springboot.shop.api.shop.modules.product.v1.dto.ProductDto;
 import com.fernando.springboot.shop.api.shop.modules.product.v2.dto.ProductBodyDtoV2;
+import com.fernando.springboot.shop.api.shop.modules.user.UserMapper;
 
 @Mapper(
     componentModel = "spring", 
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-    uses = {CategoryMapper.class}
+    uses = {CategoryMapper.class, UserMapper.class}
 )
 public interface ProductMapper extends BaseMapper<Product, ProductDto> {
     

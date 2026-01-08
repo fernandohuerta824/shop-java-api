@@ -10,15 +10,18 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fernando.springboot.shop.api.shop.common.constants.FieldLengths;
 import com.fernando.springboot.shop.api.shop.modules.category.Category;
+import com.fernando.springboot.shop.api.shop.modules.user.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -54,6 +57,10 @@ public class Product {
 
     @Column(nullable = false)
     private Integer stock;
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_code")
+    private User user;
 
     private Integer discount;
 

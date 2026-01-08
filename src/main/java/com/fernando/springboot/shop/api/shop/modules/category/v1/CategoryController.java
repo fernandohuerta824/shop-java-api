@@ -37,6 +37,7 @@ public class CategoryController {
 
     @GetMapping
     @Operation(summary = "Recupera todas la categorias con paginacion")
+   
     public ResponseEntity<ApiPageResponse<CategoryDto>> findAll(
         @RequestParam(required = false, defaultValue = "0") Integer page
     ) {
